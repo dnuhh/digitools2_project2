@@ -1,10 +1,23 @@
+/**
+Project 2 - Block Breaker
+INFO17198
+Ed Naus
+Deanna Mak, Andre Byam, Oliver Ibbett, Jimmy Stewart, Alexie Crisostomo
+April 16, 2016
 
+**********************************************************************
+** BASE CODE USED TO CREATE THIS WAS CPIN FROM THE IN-CLASS EXAMPLE **
+**********************************************************************
+
+**/
+
+// import libraries
 import com.onformative.leap.*;
 import com.leapmotion.leap.Hand;
 import processing.video.*;
-
 import deadpixel.keystone.*;
 
+// initialize global variables
 
 LeapMotionP5 leap;
 
@@ -32,26 +45,19 @@ Movie currentMov;
 PImage pickaxe, shovel, axe, currImg;
 
 void setup() {
-  // Keystone will only work with P3D or OPENGL renderers, 
-  // since it relies on texture mapping to deform
   size(1029, 1080, P3D);
-
-
+  
   ks = new Keystone(this);
   surface1 = ks.createCornerPinSurface(400, 400, 20);
   surface2 = ks.createCornerPinSurface(400, 400, 20);
   surface3 = ks.createCornerPinSurface(400, 400, 20);
-  // We need an offscreen1 buffer to draw the surface1 we
-  // want projected
-  // note that we're matching the resolution of the
-  // CornerPinSurface.
-  // (The offscreen1 buffer can be P2D or P3D)
+  
   offscreen1 = createGraphics(400, 400, P3D);
   offscreen2 = createGraphics(400, 400, P3D);
   offscreen3 = createGraphics(400, 400, P3D);
 
   leap = new LeapMotionP5(this);
-
+  // set movies
   mov1 = new Movie(this, "rock.mp4") {
     @ Override public void eosEvent() {
       super.eosEvent();
@@ -78,7 +84,7 @@ void setup() {
   mov3.pause();
 
   counter=0;
-  
+  // set pointer images
   pickaxe = loadImage("pick.png");
   shovel = loadImage("shovel.png");
   axe = loadImage("axe.png");
@@ -89,46 +95,36 @@ void setup() {
 void draw() {
   println("counter: "+counter);
   println("run: "+run);
-  // Convert the mouse coordinate into surface1 coordinates
-  // this will allow you to use mouse events inside the 
-  // surface1 from your screen. 
+  
   PVector surface1Mouse = surface1.getTransformedMouse();
   PVector surface2Mouse = surface2.getTransformedMouse();
   PVector surface3Mouse = surface3.getTransformedMouse();
-
+  // if random element is rock
   if (counter==0) {
     currentMov=mov1;
     
-    // Draw the scene, offscreen1
     offscreen1.beginDraw();
     offscreen1.background(255);
     offscreen1.fill(0, 255, 0);
     offscreen1.ellipse(surface1Mouse.x, surface1Mouse.y, 75, 75);
-
     if (mov1.available()) {
       mov1.read();
     }
     offscreen1.image(mov1, 0, 0);
-
-
     offscreen1.endDraw();
 
     offscreen2.beginDraw();
     offscreen2.background(255);
     offscreen2.fill(0, 255, 0);
     offscreen2.ellipse(surface2Mouse.x, surface2Mouse.y, 75, 75);
-
     offscreen2.image(mov1, 0, 0);
-
     offscreen2.endDraw();
 
     offscreen3.beginDraw();
     offscreen3.background(255);
     offscreen3.fill(0, 255, 0);
     offscreen3.ellipse(surface3Mouse.x, surface3Mouse.y, 75, 75);
-
     offscreen3.image(mov1, 0, 0);
-
     offscreen3.endDraw();
     if (tPlay==true) {
       mov1.play();
@@ -137,42 +133,32 @@ void draw() {
     } 
     println(run);
   }
-
+  // if random element is wood
   if (counter==1) {
     currentMov=mov2;
-    // Draw the scene, offscreen1
+    
     offscreen1.beginDraw();
     offscreen1.background(255);
     offscreen1.fill(0, 255, 0);
     offscreen1.ellipse(surface1Mouse.x, surface1Mouse.y, 75, 75);
-
     if (mov2.available()) {
       mov2.read();
     }
     offscreen1.image(mov2, 0, 0);
-
-
     offscreen1.endDraw();
 
     offscreen2.beginDraw();
     offscreen2.background(255);
     offscreen2.fill(0, 255, 0);
     offscreen2.ellipse(surface2Mouse.x, surface2Mouse.y, 75, 75);
-
-
     offscreen2.image(mov2, 0, 0);
-
-
     offscreen2.endDraw();
 
     offscreen3.beginDraw();
     offscreen3.background(255);
     offscreen3.fill(0, 255, 0);
     offscreen3.ellipse(surface3Mouse.x, surface3Mouse.y, 75, 75);
-
-
     offscreen3.image(mov2, 0, 0);
-
     offscreen3.endDraw();
     if (rPlay==true) {
       mov2.play();
@@ -180,43 +166,32 @@ void draw() {
       mov2.pause();
     }
   }
-
+  // if random element is dirt
   if (counter==2) {
     currentMov=mov3;
     
-    // Draw the scene, offscreen1
     offscreen1.beginDraw();
     offscreen1.background(255);
     offscreen1.fill(0, 255, 0);
     offscreen1.ellipse(surface1Mouse.x, surface1Mouse.y, 75, 75);
-
     if (mov3.available()) {
       mov3.read();
     }
     offscreen1.image(mov3, 0, 0);
-
-
     offscreen1.endDraw();
 
     offscreen2.beginDraw();
     offscreen2.background(255);
     offscreen2.fill(0, 255, 0);
     offscreen2.ellipse(surface2Mouse.x, surface2Mouse.y, 75, 75);
-
-
     offscreen2.image(mov3, 0, 0);
-
-
     offscreen2.endDraw();
 
     offscreen3.beginDraw();
     offscreen3.background(255);
     offscreen3.fill(0, 255, 0);
     offscreen3.ellipse(surface3Mouse.x, surface3Mouse.y, 75, 75);
-
-
     offscreen3.image(mov3, 0, 0);
-
     offscreen3.endDraw();
     if (lPlay==true) {
       mov3.play();
@@ -230,20 +205,14 @@ if (!run){
   counter=(int)(Math.random()*3);
 }
 
-
-  // most likely, you'll want a black background to minimize
-  // bleeding around your projection area
   background(0);
 
-  // render the scene, transformed using the corner pin surface1
+  // render the screens
   surface1.render(offscreen1);
   surface2.render(offscreen2);
   surface3.render(offscreen3);
 
-
-
-
-  //start drawing fingers for leap
+  // draw hand
   fill(255);
   for (Hand hand : leap.getHandList()) {
     PVector handPos=leap.getPosition(hand);
@@ -292,6 +261,7 @@ void keyPressed() {
     break;
   }
 }
+// detects if video is over
 void myEoS() {
   run = false;
 }

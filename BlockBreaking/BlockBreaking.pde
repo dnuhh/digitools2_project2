@@ -28,6 +28,9 @@ Movie mov3;
 int counter;
 boolean run=true;
 Movie currentMov;
+
+PImage pickaxe, shovel, axe, currImg;
+
 void setup() {
   // Keystone will only work with P3D or OPENGL renderers, 
   // since it relies on texture mapping to deform
@@ -75,6 +78,12 @@ void setup() {
   mov3.pause();
 
   counter=0;
+  
+  pickaxe = loadImage("pick.png");
+  shovel = loadImage("shovel.png");
+  axe = loadImage("axe.png");
+  
+  currImg=pickaxe;
 }
 
 void draw() {
@@ -89,6 +98,7 @@ void draw() {
 
   if (counter==0) {
     currentMov=mov1;
+    
     // Draw the scene, offscreen1
     offscreen1.beginDraw();
     offscreen1.background(255);
@@ -173,6 +183,7 @@ void draw() {
 
   if (counter==2) {
     currentMov=mov3;
+    
     // Draw the scene, offscreen1
     offscreen1.beginDraw();
     offscreen1.background(255);
@@ -236,22 +247,25 @@ if (!run){
   fill(255);
   for (Hand hand : leap.getHandList()) {
     PVector handPos=leap.getPosition(hand);
-    ellipse(handPos.x,handPos.y, 10, 10);
+    image(currImg, handPos.x, handPos.y, 100, 100);
 
     if (handPos.x > 800 && handPos.y > 200 && rPlay == false) {
       rPlay = true;
       lPlay = false;
       tPlay = false;
+      currImg=axe;
     } 
     if (handPos.x < 400 && handPos.y > 200 && lPlay == false) {
       rPlay = false;
       lPlay = true;
       tPlay = false;
+      currImg=shovel;
     }
     if (handPos.y < 200 && tPlay == false) {
       rPlay = false;
       lPlay = false;
       tPlay = true;
+      currImg=pickaxe;
     }
   }
 }

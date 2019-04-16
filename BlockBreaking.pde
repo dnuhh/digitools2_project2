@@ -1,6 +1,6 @@
 
 import com.onformative.leap.*;
-import com.leapmotion.leap.Finger;
+import com.leapmotion.leap.Hand;
 import processing.video.*;
 
 import deadpixel.keystone.*;
@@ -234,21 +234,21 @@ if (!run){
 
   //start drawing fingers for leap
   fill(255);
-  for (Finger finger : leap.getFingerList()) {
-    PVector fingerPos=leap.getTip(finger);
-    ellipse(fingerPos.x, fingerPos.y, 10, 10);
+  for (Hand hand : leap.getHandList()) {
+    PVector handPos=leap.getPosition(hand);
+    ellipse(handPos.x,handPos.y, 10, 10);
 
-    if (fingerPos.x > 1000 && fingerPos.y > 300 && rPlay == false) {
+    if (handPos.x > 800 && handPos.y > 200 && rPlay == false) {
       rPlay = true;
       lPlay = false;
       tPlay = false;
     } 
-    if (fingerPos.x < 600 && fingerPos.y > 300 && lPlay == false) {
+    if (handPos.x < 400 && handPos.y > 200 && lPlay == false) {
       rPlay = false;
       lPlay = true;
       tPlay = false;
     }
-    if (fingerPos.y < 300 && tPlay == false) {
+    if (handPos.y < 200 && tPlay == false) {
       rPlay = false;
       lPlay = false;
       tPlay = true;

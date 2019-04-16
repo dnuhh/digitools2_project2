@@ -93,9 +93,6 @@ void setup() {
 }
 
 void draw() {
-  println("counter: "+counter);
-  println("run: "+run);
-  
   PVector surface1Mouse = surface1.getTransformedMouse();
   PVector surface2Mouse = surface2.getTransformedMouse();
   PVector surface3Mouse = surface3.getTransformedMouse();
@@ -131,7 +128,6 @@ void draw() {
     } else {
       mov1.pause();
     } 
-    println(run);
   }
   // if random element is wood
   if (counter==1) {
